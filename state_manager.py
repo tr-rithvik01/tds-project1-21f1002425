@@ -2,7 +2,7 @@ import json
 import os
 from typing import Optional, Dict
 
-STATE_FILE = "repo_state.json"
+STATE_FILE = "/tmp/repo_state.json"
 
 def save_task_state(task_id: str, details: Dict):
     """Saves the repository details for a given task ID."""

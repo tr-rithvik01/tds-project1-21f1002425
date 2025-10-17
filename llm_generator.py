@@ -49,14 +49,12 @@ def generate_app_code(request_data: dict, saved_attachments_meta: list) -> dict:
 You are an expert full-stack web developer. Your task is to generate or modify the complete code for a web app based on a given brief.
 You MUST return your response as a single, valid JSON object. The JSON object must have filenames as keys and the file content as string values.
 Do not include any explanations or markdown formatting outside of the JSON object itself.
-
 # --- START: NEW INSTRUCTION ---
 **VERY IMPORTANT: All string values in the JSON MUST be properly escaped according to standard JSON format.**
 - **Newlines** must be escaped as `\\n`.
 - **Double quotes** must be escaped as `\\"`.
 - **Backslashes** must be escaped as `\\\\`.
 # --- END: NEW INSTRUCTION ---
-
 Do not include any explanations or markdown formatting outside of the JSON object itself.
 ...
 **CRITICAL: Your response MUST include a comprehensive README.md file with the following sections:**
@@ -65,23 +63,24 @@ Do not include any explanations or markdown formatting outside of the JSON objec
 3.  **Usage Guide:** How to use the application.
 4.  **Code Explanation:** A brief overview of the file structure and logic.
 5.  **License Information:** State that it is under the MIT License.
-
 The README.md must be professional and complete.
 ---
 """
-    # This is the 'User Prompt' with the specific task
+    # First, format the checks string outside of the main f-string.
+    checks_text = "\n- ".join(checks) if checks else "None specified"
+    
     user_prompt = f"""
-Please generate or modify the code for a web application based on the following requirements.
-
-**Project Brief:**
-{brief}
-
-**Evaluation Checks (Your code must satisfy these):**
-- {"\n- ".join(checks)}
-
-**Attachments:**
-{_create_attachment_summary_for_prompt(saved_attachments_meta)}
-"""
+    Please generate or modify the code for a web application based on the following requirements.
+    
+    **Project Brief:**
+    {brief}
+    
+    **Evaluation Checks (Your code must satisfy these):**
+    - {checks_text}
+    
+    **Attachments:**
+    {_create_attachment_summary_for_prompt(saved_attachments_meta)}
+    """
 
     # Add revision-specific instructions
     if round_number > 1:
